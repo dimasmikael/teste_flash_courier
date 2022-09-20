@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "309554895696",
+    "project_id": "testeflashcourier",
+    "storage_bucket": "testeflashcourier.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309554895696:android:1ad45a4b5969d54483aa55",
+        "android_client_info": {
+          "package_name": "com.example.teste_flash_courier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309554895696-dterji7rjr1mpq4it6cqu9fnca65droj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUHGy-F9vBJ5fOp7uL4rcK7xFIg758XKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309554895696-dterji7rjr1mpq4it6cqu9fnca65droj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

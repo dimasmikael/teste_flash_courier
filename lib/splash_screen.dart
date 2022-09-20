@@ -6,7 +6,7 @@ import 'package:teste_flash_courier/views/home/home_view.dart';
 import 'package:teste_flash_courier/views/login/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen ({Key? key}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -17,10 +17,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     FirebaseAuth auth = FirebaseAuth.instance;
-     usuarioLogado = auth.currentUser!;
+    usuarioLogado = auth.currentUser;
     super.initState();
   }
-
 
   //
   // Future<Widget> _verificarUsuarioLogado() async {
@@ -53,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Image.asset('assets/images/logo.png'),
-      nextScreen: usuarioLogado == null ?const HomeView():const LoginView(),
+      nextScreen: usuarioLogado == null ? const LoginView() : const HomeView(),
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.leftToRight,
-      backgroundColor: Colors.white,
-      duration: 500,
+      backgroundColor: const Color(0xff3F5398),
+      duration: 5000,
       splashIconSize: 300,
     );
   }
