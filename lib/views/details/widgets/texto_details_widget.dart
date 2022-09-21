@@ -17,7 +17,7 @@ class TextDetailsWidget extends StatelessWidget {
           widgets: Column(children: [
             textInfoDetails('País: ${address?.country ?? ''}'),
             textInfoDetails('Estado: ${address?.state ?? ''}'),
-            textInfoDetails('Cidade: ${address?.district ?? ''}'),
+            textInfoDetails('Cidade: ${address?.city ?? ''}'),
           ]),
         ),
         const Divider(
@@ -26,6 +26,7 @@ class TextDetailsWidget extends StatelessWidget {
         CustomCardWidget(
           widgets: Column(children: [
             textInfoDetails('CEP: ${address?.zipCode ?? 0}'),
+            textInfoDetails('Bairro: ${address?.district ?? 0}'),
             textInfoDetails('Logradouro: ${address?.street ?? ''}'),
             textInfoDetails('Número: ${address?.number ?? 0}'),
           ]),

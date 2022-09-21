@@ -6,6 +6,7 @@ class AddressModel {
   String _street = '';
   String _district = '';
   String _state = '';
+  String _city = '';
   int _number = 0;
   int _zipCode = 0;
 
@@ -50,6 +51,12 @@ class AddressModel {
     _state = value;
   }
 
+  String get city => _city;
+
+  set city(String value) {
+    _city = value;
+  }
+
   int get number => _number;
 
   set number(int value) {
@@ -74,6 +81,7 @@ class AddressModel {
     street = doc['street'] ?? '';
     district = doc['district'] ?? '';
     state = doc['state'] ?? '';
+    city = doc['city'] ?? '';
     number = (doc['number']) ?? 0;
     zipCode = doc['zipCode'] ?? 0;
     photoCountry = List<String>.from(doc['photoCountry'] ?? []);
@@ -86,6 +94,7 @@ class AddressModel {
       "street": street,
       "district": district,
       "state": state,
+      "city": city,
       "number": number,
       "zipCode": zipCode,
       "photoCountry": photoCountry,

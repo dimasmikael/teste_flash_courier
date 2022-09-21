@@ -40,12 +40,27 @@ class _FormWidgetState extends State<FormWidget> {
               )
             ],
           ),
-          CustomInputWidget(
-            type: TextInputType.text,
-            onSaved: (String? cidade) {
-              widget.address?.district = cidade!;
-            },
-            hint: "Cidade",
+          Row(
+            children: [
+              Expanded(
+                child: CustomInputWidget(
+                  type: TextInputType.text,
+                  onSaved: (String? cidade) {
+                    widget.address?.city = cidade!;
+                  },
+                  hint: "Cidade",
+                ),
+              ),
+              Expanded(
+                child: CustomInputWidget(
+                  type: TextInputType.text,
+                  onSaved: (String? bairro) {
+                    widget.address?.district = bairro!;
+                  },
+                  hint: "Bairro",
+                ),
+              )
+            ],
           ),
           Row(
             children: [
