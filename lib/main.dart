@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:teste_flash_courier/splash_screen.dart';
-import 'package:teste_flash_courier/views/details/details_view.dart';
 import 'package:teste_flash_courier/views/home/home_view.dart';
 import 'package:teste_flash_courier/views/login/login_view.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view.dart';
