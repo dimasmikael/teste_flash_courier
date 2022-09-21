@@ -7,9 +7,9 @@ import 'package:teste_flash_courier/repositories/user_repository.dart';
 class AddressController {
   AddressRepository repository = AddressRepository();
 
-  getLoadAddresses(String idUsuarioLogado, controller) {
+  getRemoveAddress(String idAddress, String idUsuarioLogado) {
     try {
-      repository.loadAddresses(idUsuarioLogado, controller);
+      repository.removeAddress(idAddress, idUsuarioLogado);
 
       print("4545454");
     } catch (e, s) {

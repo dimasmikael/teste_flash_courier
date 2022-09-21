@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+
+import 'package:teste_flash_courier/models/address_model.dart';
+import 'package:teste_flash_courier/shared/card/custom-card/custom_card_widget.dart';
+import 'package:teste_flash_courier/shared/style/text/style_text.dart';
+
+class TextDetailsWidget extends StatelessWidget {
+  const TextDetailsWidget(this.address, {Key? key}) : super(key: key);
+  final AddressModel? address;
+
+  @override
+  Widget build(BuildContext context) {
+    // String genre = game!.genres!.map((item) => item.name).toList().join(",");
+    // String platform =
+    //     game!.platforms!.map((item) => item.name).toList().join(",");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CustomCardWidget(
+          title: 'Character',
+          widgets: Column(children: [
+            textInfoDetails('País: ${address?.country ?? ''}'),
+            textInfoDetails('Estado: ${address?.state ?? ''}'),
+            textInfoDetails('Cidade: ${address?.district ?? ''}'),
+          ]),
+        ),
+        const Divider(
+          thickness: 3,
+        ),
+        CustomCardWidget(
+          title: 'Character',
+          widgets: Column(children: [
+            textInfoDetails('CEP: ${address?.zipCode?? 0}'),
+            textInfoDetails('Logradouro: ${address?.street ?? ''}'),
+            textInfoDetails('Número: ${address?.number ?? 0}'),
+          ]),
+        ),
+      ],
+    );
+  }
+}

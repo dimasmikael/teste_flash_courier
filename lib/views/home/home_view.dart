@@ -1,11 +1,14 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:teste_flash_courier/controllers/address_controller.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
-import 'package:teste_flash_courier/repositories/address_repository.dart';
+import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
 import 'package:teste_flash_courier/shared/drawer/app-drawer/app-drawer.dart';
+import 'package:teste_flash_courier/shared/style/text/style_text.dart';
+import 'package:teste_flash_courier/views/details/details_view.dart';
 import 'package:teste_flash_courier/views/home/home_view_widgets/home_view_item_widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -16,39 +19,37 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final _controller = StreamController<QuerySnapshot>.broadcast();
-String? _idUsuarioLogado;
-  AddressRepository? repository = AddressRepository();
-  AddressModel? address;
-
-
-  _recuperaDadosUsuarioLogado() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User usuarioLogado = auth.currentUser!;
-    _idUsuarioLogado = usuarioLogado.uid;
-  }
-  Future<Stream<QuerySnapshot>?>? _adicionarListenerAnuncios() async {
-    await _recuperaDadosUsuarioLogado();
-
-    var db = FirebaseFirestore.instance;
-    Stream<QuerySnapshot> stream = db
-        .collection("my-addresses")
-        .doc(_idUsuarioLogado)
-        .collection("addresses")
-        .snapshots();
-
-    stream.listen((dados) {
-      _controller.add(dados);
-    });
-  }
+  final _controllerStream = StreamController<QuerySnapshot>.broadcast();
+  String? _idUserLogged;
+  AddressController? controller = AddressController();
+  AddressModel? _address;
 
   @override
   void initState() {
     super.initState();
-    _adicionarListenerAnuncios();
-  // repository?.loadAddresses(_idUsuarioLogado??'', _controller);
+    _loadAddress();
   }
 
+  _retrieveUserDataLogged() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User usuarioLogado = auth.currentUser!;
+    _idUserLogged = usuarioLogado.uid;
+  }
+
+  Future<Stream<QuerySnapshot>?>? _loadAddress() async {
+    await _retrieveUserDataLogged();
+
+    var db = FirebaseFirestore.instance;
+    Stream<QuerySnapshot> stream = db
+        .collection("my-addresses")
+        .doc(_idUserLogged)
+        .collection("addresses")
+        .snapshots();
+
+    stream.listen((data) {
+      _controllerStream.add(data);
+    });
+  }
 
   final _loadingDataWigget = Center(
     child: Column(
@@ -61,16 +62,46 @@ String? _idUsuarioLogado;
     ),
   );
 
+  Future? _showRemovalDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Confirmar"),
+            content: const Text("Deseja realmente excluir o endereço?"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  "Cancelar",
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                //  color: Colors.red,
+                child: const Text(
+                  "Remover",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  controller!.getRemoveAddress(_address!.id, _idUserLogged!);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Flash Courier APP'),
-      ),
+      appBar: const CustomAppBar(text:'Flash Courier APP'),
       drawer: AppDrawer(),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _controller.stream,
+        stream: _controllerStream.stream,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -82,9 +113,6 @@ String? _idUsuarioLogado;
               if (snapshot.hasError) return const Text("Error loading data!");
 
               QuerySnapshot? querySnapshot = snapshot.data;
-              //DocumentSnapshot? snap = snapshot.data;
-
-              //DocumentSnapshot querySnapshot = snapshot.data as DocumentSnapshot;
 
               return ListView.builder(
                   itemCount: querySnapshot!.docs.length,
@@ -92,58 +120,33 @@ String? _idUsuarioLogado;
                     List<DocumentSnapshot>? adresses =
                         querySnapshot.docs.toList();
                     DocumentSnapshot documentSnapshot = adresses[indice];
-                    address=
+                  AddressModel  address =
                         AddressModel.fromDocumentSnapshot(documentSnapshot);
 
                     return HomeViewItemWidget(
+                      onTapItem:()=>
+
+                       //   SchedulerBinding.instance.addPostFrameCallback((_) {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => DetailsView(address,))),
+                        //  },//),
+
                       address: address,
                       onPressedRemover: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text("Confirmar"),
-                                content: const Text(
-                                    "Deseja realmente excluir o anúncio?"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text(
-                                      "Cancelar",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    //  color: Colors.red,
-                                    child: const Text(
-                                      "Remover",
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                    onPressed: () {
-                                      //    _removerAnuncio(exercicio?.id ?? '');
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
+                        _showRemovalDialog();
                       },
                     );
                   });
           }
         },
       ),
-        floatingActionButton: FloatingActionButton(
-            backgroundColor:  Colors.orangeAccent,
-            foregroundColor: Colors.white,
-            onPressed: () =>
-
-
-        Navigator.pushNamed(context, '/Addressregistrationview', arguments: address),
-            child: const Icon(Icons.add),
-              )
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orangeAccent,
+        foregroundColor: Colors.white,
+        onPressed: () =>
+            Navigator.pushNamed(context, '/Addressregistrationview'),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

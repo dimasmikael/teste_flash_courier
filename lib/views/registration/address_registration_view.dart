@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
 import 'package:teste_flash_courier/repositories/address_repository.dart';
 import 'package:teste_flash_courier/repositories/user_repository.dart';
+import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/button_widget/registration_view_custom_button.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/form_widget/custom_input_widget/registration_view_custom_input.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/form_widget/registration_view_form_widget.dart';
@@ -25,7 +26,6 @@ class AddressRegistrationView extends StatefulWidget {
 
 class _AddressRegistrationViewState extends State<AddressRegistrationView> {
   AddressModel? _address;
-
 
   @override
   void initState() {
@@ -75,12 +75,7 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
     _openDialog(context);
 
     //Upload imagens no Storage
-    await _uploadImagens();
-
-    //  print("lista imagens: ${_aluno?.fotos.toString()}");
-
-    //Salvar anuncio no Firestore
-    //Salvar anuncio no Firestore
+    await _uploadImages();
 
     FirebaseAuth auth = FirebaseAuth.instance;
     User? usuarioLogado = auth.currentUser!;
@@ -102,7 +97,7 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
     });
   }
 
-  Future _uploadImagens() async {
+  Future _uploadImages() async {
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference pastaRaiz = storage.ref();
 
@@ -122,9 +117,7 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Novo endereço"),
-      ),
+      appBar: const CustomAppBar(text: 'Novo endereço'),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
@@ -135,16 +128,15 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  PhotoWidget(listImages:_listImages,imageFileList:_imageFileList),
-                  FormWidget(address:_address),
+                  PhotoWidget(
+                      listImages: _listImages, imageFileList: _imageFileList),
+                  FormWidget(address: _address),
                   CustomButtonWidget(
                     text: "Cadastrar endereço",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        //salva campos
                         _formKey.currentState!.save();
 
-                        //salvar anuncio
                         _saveAddress();
                       }
                     },

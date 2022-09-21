@@ -18,7 +18,7 @@ Widget textAppBar(String text) {
   );
 }
 
-Widget textNameCharacter(String text) {
+Widget textNamePlace(String text) {
   return Padding(
     padding: const EdgeInsets.only(left: 1, top: 1, bottom: 1),
     child: Align(
@@ -28,49 +28,14 @@ Widget textNameCharacter(String text) {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.inter(
-          fontSize: SizeConfig.safeBlockHorizontal! * 7,
+          fontSize: SizeConfig.safeBlockHorizontal! * 3.5,
           fontWeight: FontWeight.bold,
+          color: Colors.black
         ),
       ),
     ),
   );
-}
-
-Widget textLocationCharacter(String text) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 1, top: 5, bottom: 5),
-    child: Align(
-      alignment: Alignment.bottomLeft,
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: GoogleFonts.inter(
-          fontSize: SizeConfig.safeBlockHorizontal! * 3.2,
-        ),
-      ),
-    ),
-  );
-}
-
-Widget textInfoCharacter(String text) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 1, top: 1, bottom: 5),
-    child: Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: GoogleFonts.inter(
-          fontSize: SizeConfig.safeBlockHorizontal! * 4,
-        ),
-      ),
-    ),
-  );
-}
-
-Widget textTitle(String text) {
+}Widget subTextNamePlace(String text) {
   return Padding(
     padding: const EdgeInsets.only(left: 1, top: 1, bottom: 1),
     child: Align(
@@ -80,15 +45,68 @@ Widget textTitle(String text) {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.inter(
-          fontSize: SizeConfig.safeBlockHorizontal! * 6,
-          fontWeight: FontWeight.bold,
+          fontSize: SizeConfig.safeBlockHorizontal! * 3.1,
+
+          color: Colors.black38
         ),
       ),
     ),
   );
 }
+//
+// Widget textLocationCharacter(String text) {
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 1, top: 5, bottom: 5),
+//     child: Align(
+//       alignment: Alignment.bottomLeft,
+//       child: Text(
+//         text,
+//         maxLines: 1,
+//         overflow: TextOverflow.ellipsis,
+//         style: GoogleFonts.inter(
+//           fontSize: SizeConfig.safeBlockHorizontal! * 3.2,
+//         ),
+//       ),
+//     ),
+//   );
+// }
+//
+// Widget textInfoCharacter(String text) {
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 1, top: 1, bottom: 5),
+//     child: Align(
+//       alignment: Alignment.centerLeft,
+//       child: Text(
+//         text,
+//         maxLines: 1,
+//         overflow: TextOverflow.ellipsis,
+//         style: GoogleFonts.inter(
+//           fontSize: SizeConfig.safeBlockHorizontal! * 4,
+//         ),
+//       ),
+//     ),
+//   );
+// }
+//
+// Widget textTitle(String text) {
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 1, top: 1, bottom: 1),
+//     child: Align(
+//       alignment: Alignment.centerLeft,
+//       child: Text(
+//         text,
+//         maxLines: 1,
+//         overflow: TextOverflow.ellipsis,
+//         style: GoogleFonts.inter(
+//           fontSize: SizeConfig.safeBlockHorizontal! * 6,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
-Widget textInfoCharacterDetails(String text) {
+Widget textInfoDetails(String text) {
   return Padding(
     padding: const EdgeInsets.all(5),
     child: Align(
@@ -99,6 +117,7 @@ Widget textInfoCharacterDetails(String text) {
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.roboto(
           fontSize: SizeConfig.safeBlockHorizontal! * 5,
+          color: Colors.black
         ),
       ),
     ),

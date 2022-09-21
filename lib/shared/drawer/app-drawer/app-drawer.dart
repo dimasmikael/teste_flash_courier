@@ -10,8 +10,8 @@ class AppDrawer extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            AppBar(
-              title: Text('Menu'),
+            AppBar(     iconTheme: const IconThemeData(color: Colors.white),
+              title: Text('Menu',style: TextStyle(color: Colors.white),),
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
