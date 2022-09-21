@@ -31,12 +31,10 @@ class UserRepository {
     if (!mounted) return;
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/loginview', (Route<dynamic> route) => false);
-
-    //   await Navigator.restorablePushReplacementNamed(context, "/login");
   }
 
-  retrieveloggedUserData(String idUsuarioLogado) async {
-    User usuarioLogado = auth.currentUser!;
-    idUsuarioLogado = usuarioLogado.uid;
+  retrieveloggedUserData(String idUserLogged) async {
+    User loggedUuser = auth.currentUser!;
+    idUserLogged = loggedUuser.uid;
   }
 }

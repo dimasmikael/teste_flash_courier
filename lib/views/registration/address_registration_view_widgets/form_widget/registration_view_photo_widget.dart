@@ -19,18 +19,15 @@ class PhotoWidget extends StatefulWidget {
 }
 
 class _PhotoWidgetState extends State<PhotoWidget> {
-  double valorInicialFoto = 40;
-  int _current = 0;
   bool isImage = false;
-  final picker = new ImagePicker();
+  final picker = ImagePicker();
   final ImagePicker _picker = ImagePicker();
-  //File? fotoCamera;
   dynamic _pickImageError;
   set _imageFile(XFile value) {
     widget.imageFileList = value == null ? null : [value];
   }
 
-  Widget _buttonGaleria(BuildContext context) {
+  Widget _buttonGalery(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () async {
         try {
@@ -39,13 +36,13 @@ class _PhotoWidgetState extends State<PhotoWidget> {
 
           if (statusReadPermission.isDenied) await Permission.storage.request();
 
-          _selecionarImagemGaleria(
+          _selectImageGallery(
             ImageSource.gallery,
             context: context,
             isMultiImage: true,
           );
         } catch (e) {
-          throw e;
+          rethrow;
         }
       },
       icon: const Icon(Icons.photo_library),
@@ -61,18 +58,25 @@ class _PhotoWidgetState extends State<PhotoWidget> {
     );
   }
 
-  Widget _imagemMiniatura(indice, BuildContext context) {
-    double largura = MediaQuery.of(context).size.width;
-    double altura = MediaQuery.of(context).size.height;
+  Widget _thumbnailImage(indice, BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Padding(
-      padding: EdgeInsets.only(top: altura * 0.035, left: 5, right: 5),
+      padding: EdgeInsets.only(top: height * 0.035, left: 5, right: 5),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          new Container(
-            width: largura / 3,
-            height: largura / 4,
+          Container(
+            width: width / 3,
+            height: width / 4,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10.0),
+              ),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(2.0),
               child: CachedNetworkImage(
@@ -85,18 +89,11 @@ class _PhotoWidgetState extends State<PhotoWidget> {
                 ),
                 placeholder: (context, url) =>
                     const SpinKitFadingCircle(color: Colors.amber),
-                errorWidget: (context, url, error) => new Icon(Icons.error),
-              ),
-            ),
-            decoration: new BoxDecoration(
-              color: Colors.grey[200],
-              shape: BoxShape.rectangle,
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(10.0),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
-          new Icon(
+          Icon(
             Icons.delete,
             color: Colors.red[300],
           ),
@@ -105,14 +102,14 @@ class _PhotoWidgetState extends State<PhotoWidget> {
     );
   }
 
-  Widget _excluirImagem(indice, BuildContext context) {
-    double altura = MediaQuery.of(context).size.height;
+  Widget _deleteImage(indice, BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
 
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
         width: double.infinity,
-        height: altura / 1.4,
+        height: height / 1.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.grey[200],
@@ -134,7 +131,7 @@ class _PhotoWidgetState extends State<PhotoWidget> {
                 ),
                 placeholder: (context, url) =>
                     const SpinKitFadingCircle(color: Colors.amber),
-                errorWidget: (context, url, error) => new Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             TextButton(
@@ -157,12 +154,12 @@ class _PhotoWidgetState extends State<PhotoWidget> {
     );
   }
 
-  void _selecionarImagemGaleria(ImageSource source,
+  void _selectImageGallery(ImageSource source,
       {BuildContext? context, bool isMultiImage = false}) async {
     if (isMultiImage) {
       try {
         final pickedFileList = await _picker.pickMultiImage(
-          imageQuality: valorInicialFoto.round(),
+          imageQuality: 50,
         );
         setState(
           () {
@@ -200,29 +197,25 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   }
 
   Widget _selectImagem(BuildContext context) {
-    double altura = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Padding(
       padding: const EdgeInsets.all(1),
       child: Column(
         children: <Widget>[
           SizedBox(
             width: SizeConfig.screenWidth!,
-            height:
-            widget.listImages.isNotEmpty?
-            SizeConfig.screenHeight! *    .32:SizeConfig.screenHeight! *    .15,
+            height: widget.listImages.isNotEmpty
+                ? SizeConfig.screenHeight! * .32
+                : SizeConfig.screenHeight! * .15,
             child: Column(
               children: [
                 Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(6),
-                      child: _buttonGaleria(context),
+                      child: _buttonGalery(context),
                     ),
                   ],
                 ),
-
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -241,10 +234,10 @@ class _PhotoWidgetState extends State<PhotoWidget> {
                               showDialog(
                                 context: context,
                                 builder: (context) =>
-                                    _excluirImagem(indice, context),
+                                    _deleteImage(indice, context),
                               );
                             },
-                            child: _imagemMiniatura(indice, context),
+                            child: _thumbnailImage(indice, context),
                           )
                         ],
                       );
@@ -262,6 +255,7 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     return FormField<List>(
       initialValue: widget.listImages,
       validator: (images) {

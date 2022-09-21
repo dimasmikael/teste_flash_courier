@@ -18,7 +18,6 @@ class DetailsView extends StatefulWidget {
 class _DetailsViewState extends State<DetailsView> {
   @override
   Widget build(BuildContext context) {
-    print(widget.address?.photoCountry.length ?? 21212);
     SizeConfig().init(context);
     return Scaffold(
       appBar: const CustomAppBar(text: 'Details Address'),

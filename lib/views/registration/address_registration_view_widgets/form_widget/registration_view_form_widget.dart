@@ -53,7 +53,6 @@ class _FormWidgetState extends State<FormWidget> {
                 child: CustomInputWidget(
                   type: TextInputType.number,
                   inputFormatters: [
-                    // obrigatório
                     FilteringTextInputFormatter.digitsOnly,
                     CepInputFormatter(),
                   ],

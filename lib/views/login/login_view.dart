@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:teste_flash_courier/controllers/user_controller.dart';
 import 'package:teste_flash_courier/models/usuario_model.dart';
@@ -16,47 +15,39 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   UserController? userController;
 
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
+
+  String _errorMessage = "";
+  bool _register = false;
+  String _textButton = "Entrar";
+
   @override
   void initState() {
     super.initState();
     userController = UserController();
   }
 
-  final TextEditingController controllerEmail =
-      TextEditingController(text: 'teste4@gmail.com');
-  final TextEditingController controllerPassword =
-      TextEditingController(text: '1234567');
-
-  String _errorMessage = "";
-  bool _register = false;
-  String _textButton = "Entrar";
-
   _validateFields(BuildContext context) async {
-    //Recupera dados dos campos
     String email = controllerEmail.text;
     String password = controllerPassword.text;
 
     if (controllerEmail.text.isEmpty || controllerPassword.text.isEmpty) {
       setState(
         () {
-          _errorMessage = "Verifiquer";
+          _errorMessage = "Verifique email e senha";
         },
       );
     } else {
       if (email.isNotEmpty && email.contains("@")) {
         if (password.isNotEmpty && password.length > 6) {
-          //Configura usuario
           UserModel user = UserModel();
           user.email = email;
           user.password = password;
 
-          //cadastrar ou logar
           if (_register) {
-            // _cadastrarUsuario(user);
-            //Cadastrar
             userController?.getRegisterUser(user, context);
           } else {
-            //Logar
             userController?.getLoginUser(user, context);
           }
         } else {
@@ -80,7 +71,6 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    print(_register);
     return Scaffold(
       backgroundColor: const Color(0xff6A8EC8),
       body: SingleChildScrollView(
@@ -90,7 +80,6 @@ class _LoginViewState extends State<LoginView> {
             Stack(
               children: const [
                 LoginImageWidget(),
-                // TitleSubtileWidget(),
               ],
             ),
             Padding(
@@ -102,9 +91,6 @@ class _LoginViewState extends State<LoginView> {
                     controllerEmail,
                     controllerPassword,
                   ),
-                  //  const SizedBox(height: 15),
-                  //   forgetButton(),
-                  //  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -158,7 +144,7 @@ class _LoginViewState extends State<LoginView> {
                             style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: Colors.orange),
                           ),
                         )
                       ],

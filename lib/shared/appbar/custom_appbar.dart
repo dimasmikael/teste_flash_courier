@@ -3,18 +3,16 @@ import 'package:teste_flash_courier/shared/config/size-config/size-config.dart';
 import 'package:teste_flash_courier/shared/style/text/style_text.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
-  const CustomAppBar({Key? key,this.text}) : super(key: key);
+  const CustomAppBar({Key? key, this.text}) : super(key: key);
   final String? text;
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
-
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    return     PreferredSize(
+    return PreferredSize(
       preferredSize: Size.fromHeight(
         SizeConfig.blockSizeVertical! * 12,
       ),

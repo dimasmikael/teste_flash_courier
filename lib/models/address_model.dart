@@ -70,22 +70,23 @@ class AddressModel {
 
   AddressModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     id = doc.id;
-  country = doc['country'] ?? '';
+    country = doc['country'] ?? '';
     street = doc['street'] ?? '';
     district = doc['district'] ?? '';
     state = doc['state'] ?? '';
-   number = (doc['number'])?? 0;
-    zipCode = doc['zipCode']?? 0;
+    number = (doc['number']) ?? 0;
+    zipCode = doc['zipCode'] ?? 0;
     photoCountry = List<String>.from(doc['photoCountry'] ?? []);
   }
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       "id": id,
-      "country": country, "street": street,
+      "country": country,
+      "street": street,
       "district": district,
       "state": state,
-       "number": number,
+      "number": number,
       "zipCode": zipCode,
       "photoCountry": photoCountry,
     };

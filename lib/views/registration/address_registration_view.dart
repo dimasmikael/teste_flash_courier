@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:brasil_fields/brasil_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
-import 'package:teste_flash_courier/repositories/address_repository.dart';
-import 'package:teste_flash_courier/repositories/user_repository.dart';
 import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/button_widget/registration_view_custom_button.dart';
-import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/form_widget/custom_input_widget/registration_view_custom_input.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/form_widget/registration_view_form_widget.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/form_widget/registration_view_photo_widget.dart';
 
@@ -38,18 +33,6 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
   List<XFile>? _imageFileList;
 
   final _formKey = GlobalKey<FormState>();
-  //
-
-  _selectImageGallery() async {
-    final ImagePicker _picker = ImagePicker();
-    XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (selectedImage != null) {
-      setState(() {
-        _listImages.add(selectedImage);
-      });
-    }
-  }
 
   _openDialog(BuildContext context) {
     showDialog(
@@ -74,27 +57,25 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
   _saveAddress() async {
     _openDialog(context);
 
-    //Upload imagens no Storage
     await _uploadImages();
 
     FirebaseAuth auth = FirebaseAuth.instance;
-    User? usuarioLogado = auth.currentUser!;
-    String? idUsuarioLogado = usuarioLogado.uid;
+    User? loggedUser = auth.currentUser!;
+    String? idUserLogged = loggedUser.uid;
 
     var db = FirebaseFirestore.instance;
     db
         .collection("my-addresses")
-        .doc(idUsuarioLogado)
+        .doc(idUserLogged)
         .collection("addresses")
         .doc(_address!.id)
         .set(_address!.toMap())
-        .then((_) {
-      // Navigator.pop(context);
-
-      Navigator.pop(context);
-      Navigator.pop(context);
-      //Navigator.restorablePushReplacementNamed(context,"/home");
-    });
+        .then(
+      (_) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+    );
   }
 
   Future _uploadImages() async {

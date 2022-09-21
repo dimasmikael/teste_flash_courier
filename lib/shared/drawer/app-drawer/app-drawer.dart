@@ -10,12 +10,16 @@ class AppDrawer extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            AppBar(     iconTheme: const IconThemeData(color: Colors.white),
-              title: Text('Menu',style: TextStyle(color: Colors.white),),
+            AppBar(
+              iconTheme: const IconThemeData(color: Colors.white),
+              title: const Text(
+                'Menu',
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Sair'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Sair'),
               onTap: () {
                 userController?.getLogoutUser(context);
               },

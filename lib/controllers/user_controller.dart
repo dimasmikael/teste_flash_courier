@@ -1,50 +1,49 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:teste_flash_courier/models/usuario_model.dart';
 import 'package:teste_flash_courier/repositories/user_repository.dart';
+import 'package:teste_flash_courier/shared/alerts/alert.dart';
 
 class UserController {
   UserRepository repository = UserRepository();
 
+  Alert alert = Alert();
+
   getRegisterUser(UserModel user, BuildContext? context) {
     try {
       repository.registerUser(user, context);
+      alert.success(context!, 'Login cadastrado com sucesso');
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
 
-      print("4545454");
-    } catch (e, s) {
-      print(e);
-      print(1);
-      print(2);
+      alert.error(context!, 'Erro na tentativa de cadastro de  login');
     }
-
-    //   return null;
   }
 
   getLoginUser(UserModel user, BuildContext? context) {
     try {
       repository.loginUser(user, context);
-
-      print("656565");
+      alert.success(context!, 'Sucesso!');
     } catch (e, s) {
-      print(e);
-      print(1);
-      print(2);
+      if (kDebugMode) {
+        print(e);
+      }
+      alert.error(context!, 'Erro na tentativa  de  login');
     }
-
-    //   return null;
+    ;
   }
 
   getLogoutUser(BuildContext context) {
     try {
       repository.logoutUser(context);
-
-      print("656565");
+      alert.success(context, 'Deslogado com sucesso');
     } catch (e, s) {
-      print(e);
-      print(1);
-      print(2);
+      if (kDebugMode) {
+        print(e);
+      }
+      alert.error(context, 'Erro na tentativa  de  deslogar');
     }
-
-    //   return null;
   }
 }

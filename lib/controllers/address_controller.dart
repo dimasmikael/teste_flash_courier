@@ -1,23 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:teste_flash_courier/models/usuario_model.dart';
 import 'package:teste_flash_courier/repositories/address_repository.dart';
-import 'package:teste_flash_courier/repositories/user_repository.dart';
+import 'package:teste_flash_courier/shared/alerts/alert.dart';
 
 class AddressController {
   AddressRepository repository = AddressRepository();
+  Alert alert = Alert();
 
-  getRemoveAddress(String idAddress, String idUsuarioLogado) {
+  getRemoveAddress(
+      String idAddress, String idUserLogged, BuildContext context) {
     try {
-      repository.removeAddress(idAddress, idUsuarioLogado);
-
-      print("4545454");
+      repository.removeAddress(idAddress, idUserLogged);
+      alert.success(context, 'Endereço removido  com sucesso');
     } catch (e, s) {
-      print(e);
-      print(1);
-      print(2);
+      alert.error(context, 'Erro na tentativa  de  remover endereço');
     }
-
-    //   return null;
   }
 }

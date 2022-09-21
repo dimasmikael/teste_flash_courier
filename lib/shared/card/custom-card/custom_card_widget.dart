@@ -1,10 +1,7 @@
-
 import 'package:flutter/material.dart';
 
 class CustomCardWidget extends StatelessWidget {
-  const CustomCardWidget({Key? key, required this.title, required this.widgets})
-      : super(key: key);
-  final String? title;
+  const CustomCardWidget({Key? key, required this.widgets}) : super(key: key);
   final Widget? widgets;
 
   Card customCard() {
@@ -16,7 +13,6 @@ class CustomCardWidget extends StatelessWidget {
         children: <Widget>[
           ListTile(
               contentPadding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
-            //  title: textTitle(title!),
               subtitle: widgets),
         ],
       ),

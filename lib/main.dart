@@ -14,10 +14,10 @@ void main() async {
     ),
   );
 
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
+  // SystemChrome.setSystemUIOverlayStyle(
+  //     const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
 
-  WidgetsFlutterBinding.ensureInitialized();
+//  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(const MyApp());
