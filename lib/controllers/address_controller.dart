@@ -12,6 +12,7 @@ class AddressController {
       repository.removeAddress(idAddress, idUserLogged);
       alert.success(context, 'Endereço removido  com sucesso');
     } catch (e, s) {
+      print(e);
       alert.error(context, 'Erro na tentativa  de  remover endereço');
     }
   }

@@ -8,7 +8,7 @@ class AddressRepository {
     db
         .collection("my-addresses")
         .doc(idUserLogged)
-        .collection("idUserLogged")
+        .collection("addresses")
         .doc(idAddress)
         .delete();
   }
