@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:teste_flash_courier/splash_screen.dart';
 import 'package:teste_flash_courier/views/home/home_view.dart';
 import 'package:teste_flash_courier/views/login/login_view.dart';
+import 'package:teste_flash_courier/views/registration/address_registration_view.dart';
 
 
 
@@ -31,9 +32,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
 
       debugShowCheckedModeBanner: false,
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/homeview': (context) => const HomeView(),
         '/loginview': (context) => const LoginView(),
+        '/Addressregistrationview': (context) => const AddressRegistrationView(),
       },
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

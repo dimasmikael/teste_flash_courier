@@ -13,48 +13,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  User? usuarioLogado;
+  User? loggedUser;
   @override
   void initState() {
     FirebaseAuth auth = FirebaseAuth.instance;
-    usuarioLogado = auth.currentUser;
+    loggedUser = auth.currentUser;
     super.initState();
   }
-
-  //
-  // Future<Widget> _verificarUsuarioLogado() async {
-  //
-  //
-  //   if (usuarioLogado == null) {
-  //
-  //     SchedulerBinding.instance.addPostFrameCallback((_) {
-  //       Navigator.pushReplacement(
-  //           context, MaterialPageRoute(builder: (_) =>const LoginView()));
-  //     });
-  //
-  //
-  //
-  //
-  //     //   Navigator.pushReplacementNamed(context, '/login');
-  //   } else {
-  //     SchedulerBinding.instance.addPostFrameCallback((_) {
-  //       Navigator.pushReplacement(
-  //           context, MaterialPageRoute(builder: (_) => const HomeView()));
-  //     });
-  //
-  //
-  //
-  //     // Navigator.pushReplacementNamed(context, '/home');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Image.asset('assets/images/logo.png'),
-      nextScreen:// usuarioLogado == null ?
-      const LoginView(),
-        //  : const HomeView(),
+      nextScreen: loggedUser == null ? const LoginView() : const HomeView(),
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.leftToRight,
       backgroundColor: const Color(0xff3F5398),
