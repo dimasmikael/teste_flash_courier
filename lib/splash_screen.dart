@@ -52,7 +52,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Image.asset('assets/images/logo.png'),
-      nextScreen: usuarioLogado == null ? const LoginView() : const HomeView(),
+      nextScreen:// usuarioLogado == null ?
+      const LoginView(),
+        //  : const HomeView(),
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.leftToRight,
       backgroundColor: const Color(0xff3F5398),

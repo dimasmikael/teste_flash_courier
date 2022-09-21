@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:teste_flash_courier/controllers/user_controller.dart';
 import 'package:teste_flash_courier/models/usuario_model.dart';
 import 'package:teste_flash_courier/shared/config/size-config/size-config.dart';
 import 'package:teste_flash_courier/views/login/login_view_widgets/login_form_widget.dart';
@@ -12,87 +14,73 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  UserController? userController;
+
+  @override
+  void initState() {
+    super.initState();
+    userController = UserController();
+  }
+
   final TextEditingController controllerEmail =
       TextEditingController(text: 'teste4@gmail.com');
   final TextEditingController controllerPassword =
       TextEditingController(text: '1234567');
 
   String _errorMessage = "";
-   bool _register = false;
+  bool _register = false;
   String _textButton = "Entrar";
 
-
-  _cadastrarUsuario(UserModel user) {
-    // FirebaseAuth auth = FirebaseAuth.instance;
-    //
-    // auth
-    //     .createUserWithEmailAndPassword(
-    //     email: usuario.email, password: usuario.senha)
-    //     .then((firebaseUser) {
-    //   //redireciona para tela principal
-    //   //   Navigator.pushReplacementNamed(context, '/home');
-    //
-    //   Navigator.pushReplacement(
-    //       context, MaterialPageRoute(builder: (_) => const HomeView()));
-    // });
-  }
-
-
-  _logarUsuario(UserModel user) {
-    // FirebaseAuth auth = FirebaseAuth.instance;
-    //
-    // auth
-    //     .signInWithEmailAndPassword(
-    //     email: usuario.email, password: usuario.senha)
-    //     .then((firebaseUser) {
-    //   //redireciona para tela principal
-    //   //  Navigator.pushReplacementNamed(context, '/home');
-    //
-    //   Navigator.pushReplacement(
-    //       context, MaterialPageRoute(builder: (_) => const HomeView()));
-    // });
-  }
-
-  _validarCampos() {
+  _validateFields(BuildContext context) async {
     //Recupera dados dos campos
     String email = controllerEmail.text;
     String password = controllerPassword.text;
 
-    if (email.isNotEmpty && email.contains("@")) {
-      if (password.isNotEmpty && password.length > 6) {
-        //Configura usuario
-        UserModel user = UserModel();
-        user.email = email;
-        user.password = password;
+    if (controllerEmail.text.isEmpty || controllerPassword.text.isEmpty) {
+      setState(
+        () {
+          _errorMessage = "Verifiquer";
+        },
+      );
+    } else {
+      if (email.isNotEmpty && email.contains("@")) {
+        if (password.isNotEmpty && password.length > 6) {
+          //Configura usuario
+          UserModel user = UserModel();
+          user.email = email;
+          user.password = password;
 
-        //cadastrar ou logar
-        if (_register) {
-          //Cadastrar
-          _cadastrarUsuario(user);
+          //cadastrar ou logar
+          if (_register) {
+            // _cadastrarUsuario(user);
+            //Cadastrar
+            userController?.getRegisterUser(user, context);
+          } else {
+            //Logar
+            userController?.getLoginUser(user, context);
+          }
         } else {
-          //Logar
-          _logarUsuario(user);
+          setState(
+            () {
+              _errorMessage = "Preencha a senha! digite mais de 6 caracteres";
+            },
+          );
         }
       } else {
         setState(
-              () {
-            _errorMessage  = "Preencha a senha! digite mais de 6 caracteres";
+          () {
+            _errorMessage = "Preencha o E-mail válido";
           },
         );
       }
-    } else {
-      setState(
-            () {
-          _errorMessage = "Preencha o E-mail válido";
-        },
-      );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
+    print(_register);
     return Scaffold(
       backgroundColor: const Color(0xff6A8EC8),
       body: SingleChildScrollView(
@@ -120,8 +108,8 @@ class _LoginViewState extends State<LoginView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text("Logar", style: TextStyle(
-                          color: Colors.white)),
+                      const Text("Logar",
+                          style: TextStyle(color: Colors.white)),
                       Switch(
                         activeColor: Colors.white,
                         value: _register,
@@ -135,7 +123,8 @@ class _LoginViewState extends State<LoginView> {
                           });
                         },
                       ),
-                      const Text("Cadastrar",style: TextStyle(color: Colors.white)),
+                      const Text("Cadastrar",
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   Center(
@@ -144,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            _validarCampos();
+                            _validateFields(context);
                           },
                           child: Container(
                             height: SizeConfig.safeBlockVertical! * 10,

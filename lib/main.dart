@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:teste_flash_courier/splash_screen.dart';
 import 'package:teste_flash_courier/views/home/home_view.dart';
+import 'package:teste_flash_courier/views/login/login_view.dart';
 
 
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/homeview': (context) => const HomeView(),
+        '/loginview': (context) => const LoginView(),
       },
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
