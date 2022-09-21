@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
 import 'package:teste_flash_courier/repositories/address_repository.dart';
@@ -21,11 +22,31 @@ String? _idUsuarioLogado;
   AddressModel? address;
 
 
+  _recuperaDadosUsuarioLogado() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User usuarioLogado = auth.currentUser!;
+    _idUsuarioLogado = usuarioLogado.uid;
+  }
+  Future<Stream<QuerySnapshot>?>? _adicionarListenerAnuncios() async {
+    await _recuperaDadosUsuarioLogado();
+
+    var db = FirebaseFirestore.instance;
+    Stream<QuerySnapshot> stream = db
+        .collection("my-addresses")
+        .doc(_idUsuarioLogado)
+        .collection("addresses")
+        .snapshots();
+
+    stream.listen((dados) {
+      _controller.add(dados);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-   repository?.loadAddresses(_idUsuarioLogado??'', _controller);
+    _adicionarListenerAnuncios();
+  // repository?.loadAddresses(_idUsuarioLogado??'', _controller);
   }
 
 
@@ -69,8 +90,8 @@ String? _idUsuarioLogado;
                   itemCount: querySnapshot!.docs.length,
                   itemBuilder: (_, indice) {
                     List<DocumentSnapshot>? adresses =
-                        querySnapshot?.docs.toList();
-                    DocumentSnapshot documentSnapshot = adresses![indice];
+                        querySnapshot.docs.toList();
+                    DocumentSnapshot documentSnapshot = adresses[indice];
                     address=
                         AddressModel.fromDocumentSnapshot(documentSnapshot);
 

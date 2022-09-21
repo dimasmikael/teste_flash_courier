@@ -16,21 +16,20 @@ class FormLoginWidget extends StatelessWidget {
         // ),
         TextFormField(
           controller: controllerEmail,
-       //   autofocus: true,
+          //   autofocus: true,
           keyboardType: TextInputType.emailAddress,
-          decoration:  const InputDecoration(
+          decoration: const InputDecoration(
             fillColor: Colors.white,
             filled: true,
             hintText: "Email",
             focusedBorder: OutlineInputBorder(
-
               borderSide: BorderSide(
                 color: Colors.orange,
                 width: 2.0,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-            //  borderRadius: BorderRadius.circular(5.0),
+              //  borderRadius: BorderRadius.circular(5.0),
               borderSide: BorderSide(
                 color: Colors.white,
                 width: 2.0,
@@ -54,14 +53,12 @@ class FormLoginWidget extends StatelessWidget {
         //   style: TextStyle(color: Color(0xFF707070), fontSize: 18),
         // ),
         TextFormField(
-
           controller: controllerSenha,
           obscureText: true,
           keyboardType: TextInputType.text,
           decoration: const InputDecoration(
             fillColor: Colors.white,
             filled: true,
-
             hintText: "Senha",
             enabledBorder: OutlineInputBorder(
               //  borderRadius: BorderRadius.circular(5.0),
@@ -71,7 +68,6 @@ class FormLoginWidget extends StatelessWidget {
               ),
             ),
             focusedBorder: OutlineInputBorder(
-
               borderSide: BorderSide(
                 color: Colors.orange,
                 width: 2.0,
