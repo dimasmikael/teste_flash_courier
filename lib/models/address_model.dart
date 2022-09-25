@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AddressModel {
   String _id = '';
   String _country = '';
-  String _street = '';
+  String _publicPlace = '';
   String _district = '';
   String _state = '';
   String _city = '';
@@ -33,10 +33,10 @@ class AddressModel {
     _country = value;
   }
 
-  String get street => _street;
+  String get publicPlace => _publicPlace;
 
-  set street(String value) {
-    _street = value;
+  set publicPlace(String value) {
+    _publicPlace = value;
   }
 
   String get district => _district;
@@ -78,7 +78,7 @@ class AddressModel {
   AddressModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     id = doc.id;
     country = doc['country'] ?? '';
-    street = doc['street'] ?? '';
+    publicPlace = doc['publicPlace'] ?? '';
     district = doc['district'] ?? '';
     state = doc['state'] ?? '';
     city = doc['city'] ?? '';
@@ -91,7 +91,7 @@ class AddressModel {
     Map<String, dynamic> map = {
       "id": id,
       "country": country,
-      "street": street,
+      "publicPlace": publicPlace,
       "district": district,
       "state": state,
       "city": city,

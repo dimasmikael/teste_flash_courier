@@ -29,6 +29,12 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
     _address = AddressModel.generateId();
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   final List<XFile> _listImages = [];
   List<XFile>? _imageFileList;
 

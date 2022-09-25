@@ -27,7 +27,7 @@ class TextDetailsWidget extends StatelessWidget {
           widgets: Column(children: [
             textInfoDetails('CEP: ${address?.zipCode ?? 0}'),
             textInfoDetails('Bairro: ${address?.district ?? 0}'),
-            textInfoDetails('Logradouro: ${address?.street ?? ''}'),
+            textInfoDetails('Logradouro: ${address?.publicPlace ?? ''}'),
             textInfoDetails('Número: ${address?.number ?? 0}'),
           ]),
         ),

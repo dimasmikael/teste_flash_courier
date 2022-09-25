@@ -92,9 +92,9 @@ class _FormWidgetState extends State<FormWidget> {
           CustomInputWidget(
             type: TextInputType.text,
             onSaved: (String? rua) {
-              widget.address?.street = rua!;
+              widget.address?.publicPlace = rua!;
             },
-            hint: "Rua",
+            hint: "Logradouro",
           ),
         ],
       ),

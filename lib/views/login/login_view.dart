@@ -28,6 +28,13 @@ class _LoginViewState extends State<LoginView> {
     userController = UserController();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    controllerEmail.dispose();
+    controllerPassword.dispose();
+  }
+
   _validateFields(BuildContext context) async {
     String email = controllerEmail.text;
     String password = controllerPassword.text;
