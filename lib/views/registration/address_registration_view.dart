@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:teste_flash_courier/controllers/address_controller.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
 import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
 import 'package:teste_flash_courier/views/registration/address_registration_view_widgets/button_widget/registration_view_custom_button.dart';
@@ -21,6 +22,7 @@ class AddressRegistrationView extends StatefulWidget {
 
 class _AddressRegistrationViewState extends State<AddressRegistrationView> {
   AddressModel? _address;
+  AddressController controller =AddressController();
 
   @override
   void initState() {
@@ -65,23 +67,11 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
 
     await _uploadImages();
 
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? loggedUser = auth.currentUser!;
-    String? idUserLogged = loggedUser.uid;
 
-    var db = FirebaseFirestore.instance;
-    db
-        .collection("my-addresses")
-        .doc(idUserLogged)
-        .collection("addresses")
-        .doc(_address!.id)
-        .set(_address!.toMap())
-        .then(
-      (_) {
-        Navigator.pop(context);
-        Navigator.pop(context);
-      },
-    );
+if(mounted) {
+  controller.getSaveAddress(_address!.id, _address!, context);
+}
+
   }
 
   Future _uploadImages() async {

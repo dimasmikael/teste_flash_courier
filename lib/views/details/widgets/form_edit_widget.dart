@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:teste_flash_courier/controllers/address_controller.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
 import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
 import 'package:teste_flash_courier/shared/config/size-config/size-config.dart';
@@ -24,6 +25,8 @@ class _FormEditWidgetState extends State<FormEditWidget> {
   final TextEditingController? controllerZipCode = TextEditingController();
   final TextEditingController? controllerNumber = TextEditingController();
   final TextEditingController? controllerPublicPlace = TextEditingController();
+
+  AddressController controller = AddressController();
 
   @override
   void initState() {
@@ -51,7 +54,7 @@ class _FormEditWidgetState extends State<FormEditWidget> {
       controllerDistrict!.text = widget.address?.district ?? '';
       controllerZipCode!.text = widget.address?.zipCode.toString() ?? '';
       controllerNumber!.text = widget.address?.number.toString() ?? '';
-      controllerPublicPlace !.text = widget.address?.publicPlace ?? '';
+      controllerPublicPlace!.text = widget.address?.publicPlace ?? '';
     });
   }
 
@@ -60,24 +63,9 @@ class _FormEditWidgetState extends State<FormEditWidget> {
 
     await _setAddress();
 
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? loggedUser = auth.currentUser!;
-    String? idUserLogged = loggedUser.uid;
-
-    var db = FirebaseFirestore.instance;
-
-    db
-        .collection("my-addresses")
-        .doc(idUserLogged)
-        .collection("addresses")
-        .doc(widget.address!.id)
-        .update(widget.address!.toMap())
-        .then(
-      (_) {
-        Navigator.pop(context);
-        Navigator.pop(context);
-      },
-    );
+    if (mounted) {
+      controller.getSaveAddress(widget.address!.id, widget.address, context);
+    }
   }
 
   _setAddress() async {
@@ -89,7 +77,7 @@ class _FormEditWidgetState extends State<FormEditWidget> {
       widget.address?.zipCode = int.parse(
           controllerZipCode!.text.replaceAll('.', '').replaceAll('-', ''));
       widget.address?.number = int.parse(controllerNumber!.text);
-      widget.address?.publicPlace= controllerPublicPlace !.text;
+      widget.address?.publicPlace = controllerPublicPlace!.text;
     });
   }
 
@@ -192,7 +180,7 @@ class _FormEditWidgetState extends State<FormEditWidget> {
                     hint: "Logradouro",
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: CustomButtonWidget(
                       text: "Atualizar",
                       onPressed: () async {

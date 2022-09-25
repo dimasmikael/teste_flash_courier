@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teste_flash_courier/controllers/address_controller.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
 import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
@@ -24,31 +25,17 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
+
+    ini();
     super.initState();
-    _loadAddress();
+
   }
 
-  _retrieveUserDataLogged() async {
+  ini() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User loggedUser = auth.currentUser!;
     _idUserLogged = loggedUser.uid;
-  }
-
-  Future<Stream<QuerySnapshot>?>? _loadAddress() async {
-    await _retrieveUserDataLogged();
-
-    var db = FirebaseFirestore.instance;
-    Stream<QuerySnapshot> stream = db
-        .collection("my-addresses")
-        .doc(_idUserLogged)
-        .collection("addresses")
-        .snapshots();
-
-    stream.listen(
-      (data) {
-        _controllerStream.add(data);
-      },
-    );
+   await  controller!.getLoadAddress(_idUserLogged!, _controllerStream, context);
   }
 
   Future? _showRemovalDialog(BuildContext context, String id) {
@@ -68,15 +55,18 @@ class _HomeViewState extends State<HomeView> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
-              //  color: Colors.red,
-              child: const Text(
-                "Remover",
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-                controller!.getRemoveAddress(id, _idUserLogged!, context);
-                Navigator.of(context).pop();
+            Consumer<AddressController>(
+              builder: (context, storedValue, child) {
+                return TextButton(
+                  child: const Text(
+                    "Remover",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () async {
+                    storedValue.getRemoveAddress(id, _idUserLogged!, context);
+                    Navigator.pop(context);
+                  },
+                );
               },
             ),
           ],
@@ -115,7 +105,9 @@ class _HomeViewState extends State<HomeView> {
                   AddressModel address =
                       AddressModel.fromDocumentSnapshot(documentSnapshot);
 
-                  return HomeViewItemWidget(
+                  return
+
+                    HomeViewItemWidget(
                     onTapItem: () => Navigator.push(
                       context,
                       MaterialPageRoute(

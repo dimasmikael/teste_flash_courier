@@ -14,22 +14,26 @@ class TextDetailsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomCardWidget(
-          widgets: Column(children: [
-            textInfoDetails('País: ${address?.country ?? ''}'),
-            textInfoDetails('Estado: ${address?.state ?? ''}'),
-            textInfoDetails('Cidade: ${address?.city ?? ''}'),
-          ]),
+          widgets: Column(
+            children: [
+              textInfoDetails('País: ${address?.country ?? ''}'),
+              textInfoDetails('Estado: ${address?.state ?? ''}'),
+              textInfoDetails('Cidade: ${address?.city ?? ''}'),
+            ],
+          ),
         ),
         const Divider(
           thickness: 3,
         ),
         CustomCardWidget(
-          widgets: Column(children: [
-            textInfoDetails('CEP: ${address?.zipCode ?? 0}'),
-            textInfoDetails('Bairro: ${address?.district ?? 0}'),
-            textInfoDetails('Logradouro: ${address?.publicPlace ?? ''}'),
-            textInfoDetails('Número: ${address?.number ?? 0}'),
-          ]),
+          widgets: Column(
+            children: [
+              textInfoDetails('CEP: ${address?.zipCode ?? 0}'),
+              textInfoDetails('Bairro: ${address?.district ?? 0}'),
+              textInfoDetails('Logradouro: ${address?.publicPlace ?? ''}'),
+              textInfoDetails('Número: ${address?.number ?? 0}'),
+            ],
+          ),
         ),
       ],
     );

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teste_flash_courier/models/address_model.dart';
 import 'package:teste_flash_courier/shared/appbar/custom_appbar.dart';
 
 import 'package:teste_flash_courier/shared/config/size-config/size-config.dart';
 import 'package:teste_flash_courier/shared/style/text/style_text.dart';
-import 'package:teste_flash_courier/views/details/widgets/form_widget_widget.dart';
+import 'package:teste_flash_courier/views/details/widgets/form_edit_widget.dart';
 import 'package:teste_flash_courier/views/details/widgets/image_details_widget.dart';
 import 'package:teste_flash_courier/views/details/widgets/texto_details_widget.dart';
 
@@ -25,13 +26,22 @@ class _DetailsViewState extends State<DetailsView> {
   }
 
   void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FormEditWidget(
-          address: widget.address,
-        ),
-      ),
-    );
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => FormEditWidget(
+              address: widget.address,
+            ),
+          ),
+        )
+        .then(
+          (value) => Navigator.pushReplacement<void, void>(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => DetailsView(widget.address),
+            ),
+          ),
+        );
   }
 
   @override

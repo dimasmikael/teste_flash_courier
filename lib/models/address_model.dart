@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class AddressModel {
+class AddressModel extends ChangeNotifier {
   String _id = '';
   String _country = '';
   String _publicPlace = '';
@@ -102,4 +103,7 @@ class AddressModel {
 
     return map;
   }
+
+  @override
+  notifyListeners();
 }
