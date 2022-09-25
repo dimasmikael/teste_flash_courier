@@ -25,17 +25,16 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-
     ini();
     super.initState();
-
   }
 
   ini() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User loggedUser = auth.currentUser!;
     _idUserLogged = loggedUser.uid;
-   await  controller!.getLoadAddress(_idUserLogged!, _controllerStream, context);
+    await controller!
+        .getLoadAddress(_idUserLogged!, _controllerStream, context);
   }
 
   Future? _showRemovalDialog(BuildContext context, String id) {
@@ -105,9 +104,7 @@ class _HomeViewState extends State<HomeView> {
                   AddressModel address =
                       AddressModel.fromDocumentSnapshot(documentSnapshot);
 
-                  return
-
-                    HomeViewItemWidget(
+                  return HomeViewItemWidget(
                     onTapItem: () => Navigator.push(
                       context,
                       MaterialPageRoute(

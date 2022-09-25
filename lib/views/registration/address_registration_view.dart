@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,7 +20,7 @@ class AddressRegistrationView extends StatefulWidget {
 
 class _AddressRegistrationViewState extends State<AddressRegistrationView> {
   AddressModel? _address;
-  AddressController controller =AddressController();
+  AddressController controller = AddressController();
 
   @override
   void initState() {
@@ -30,7 +28,6 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
 
     _address = AddressModel.generateId();
   }
-
 
   @override
   void dispose() {
@@ -67,11 +64,9 @@ class _AddressRegistrationViewState extends State<AddressRegistrationView> {
 
     await _uploadImages();
 
-
-if(mounted) {
-  controller.getSaveAddress(_address!.id, _address!, context);
-}
-
+    if (mounted) {
+      controller.getSaveAddress(_address!.id, _address!, context);
+    }
   }
 
   Future _uploadImages() async {

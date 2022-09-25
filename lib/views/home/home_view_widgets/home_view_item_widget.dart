@@ -38,8 +38,7 @@ class HomeViewItemWidget extends StatelessWidget {
                         children: [
                           textNamePlace('País: ${address?.country ?? ''}'),
                           subTextNamePlace('Estado: ${address?.state ?? ""}'),
-                          subTextNamePlace(
-                              'Cidade: ${address?.city ?? ""}'),
+                          subTextNamePlace('Cidade: ${address?.city ?? ""}'),
                         ],
                       ),
                     ),
