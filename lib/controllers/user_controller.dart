@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:teste_flash_courier/models/usuario_model.dart';
 import 'package:teste_flash_courier/repositories/user_repository.dart';
@@ -9,41 +8,16 @@ class UserController {
 
   Alert alert = Alert();
 
-  getRegisterUser(UserModel user, BuildContext? context) {
-    try {
-      repository.registerUser(user, context);
-      alert.success(context!, 'Login cadastrado com sucesso');
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-
-      alert.error(context!, 'Erro na tentativa de cadastro de  login');
-    }
+  getRegisterUser(UserModel user, BuildContext? context) async {
+    await repository.registerUser(user, context);
   }
 
-  getLoginUser(UserModel user, BuildContext? context) {
-    try {
-      repository.loginUser(user, context);
-      alert.success(context!, 'Sucesso!');
-    } catch (e, s) {
-      if (kDebugMode) {
-        print(e);
-      }
-      alert.error(context!, 'Erro na tentativa  de  login');
-    }
-    ;
+  getLoginUser(UserModel user, BuildContext? context) async {
+    await repository.loginUser(user, context);
   }
 
-  getLogoutUser(BuildContext context) {
-    try {
-      repository.logoutUser(context);
-      alert.success(context, 'Deslogado com sucesso');
-    } catch (e, s) {
-      if (kDebugMode) {
-        print(e);
-      }
-      alert.error(context, 'Erro na tentativa  de  deslogar');
-    }
+  getLogoutUser(BuildContext context) async {
+    await repository.logoutUser(context);
   }
+
 }
