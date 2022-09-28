@@ -73,13 +73,13 @@ class UserRepository {
     } on FirebaseAuthException catch (error) {
       print(error);
       alert.error(
-        context!,
+        context,
         error.toString(),
       );
     } catch (e) {
       print(e);
       alert.error(
-        context!,
+        context,
         e.toString(),
       );
     }

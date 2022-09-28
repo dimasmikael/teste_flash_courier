@@ -11,47 +11,25 @@ class AddressController extends ChangeNotifier {
   final controllerStream = StreamController<QuerySnapshot>.broadcast();
 
   getRemoveAddress(
-      String idAddress, String idUserLogged, BuildContext context) {
-    try {
-      repository.removeAddress(idAddress, idUserLogged);
-      alert.success(context, 'Endereço removido  com sucesso');
-    } catch (e, s) {
-      print(e);
-      alert.error(context, 'Erro na tentativa  de  remover endereço');
-    }
+      String idAddress, String idUserLogged, BuildContext context) async {
+    await repository.removeAddress(idAddress, idUserLogged, context);
     notifyListeners();
   }
 
-  getLoadAddress(String idUserLogged, controllerStream, BuildContext context) {
-    try {
-      repository.loadAddress(idUserLogged, controllerStream);
-      alert.success(context, 'Endereço(s) carregados com sucesso');
-    } catch (e, s) {
-      print(e);
-      alert.error(context, 'Erro na tentativa  de  carregar os endereços');
-    }
+  getLoadAddress(
+      String idUserLogged, controllerStream, BuildContext context) async {
+    await repository.loadAddress(idUserLogged, controllerStream, context);
     notifyListeners();
   }
 
-  getSaveAddress(String id, AddressModel? address, BuildContext context) {
-    try {
-      repository.saveAddress(id, address!, context);
-      alert.success(context, 'Endereço salvo com sucesso');
-    } catch (e, s) {
-      print(e);
-      alert.error(context, 'Erro na tentativa  de  salvar o endereço');
-    }
+  getSaveAddress(String id, AddressModel? address, BuildContext context) async {
+    await repository.saveAddress(id, address!, context);
     notifyListeners();
   }
 
-  getupdateAddress(String id, AddressModel address, BuildContext context) {
-    try {
-      repository.updateAddress(id, address, context);
-      alert.success(context, 'Endereço atualizadocom sucesso');
-    } catch (e, s) {
-      print(e);
-      alert.error(context, 'Erro na tentativa  de  atualizar o endereço');
-    }
+  getupdateAddress(
+      String id, AddressModel address, BuildContext context) async {
+    await repository.updateAddress(id, address, context);
     notifyListeners();
   }
 }
