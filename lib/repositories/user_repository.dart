@@ -16,8 +16,6 @@ class UserRepository {
           Navigator.pushReplacementNamed(context!, '/homeview');
         },
       );
-
-      alert.success(context!, 'Login cadastrado com sucesso');
     } on FirebaseAuthException catch (error) {
       print(error);
       alert.error(
